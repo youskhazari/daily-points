@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Daily Points</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Daily Points" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --card: #fffaf1;
+      --ink: #1f2937;
+      --muted: #7c6f63;
+      --line: #eadfce;
+      --accent: #111827;
+      --green: #22c55e;
+      --gold: #f4b740;
+      --red: #ef4444;
+      --shadow: 0 12px 28px rgba(31, 41, 55, 0.10);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #fff7da 0, var(--bg) 42%, #eee7dc 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 18px;
+    }
+
+    .app { max-width: 860px; margin: 0 auto; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 2px 18px;
+    }
+
+    h1 { margin: 0; font-size: 30px; letter-spacing: -0.04em; }
+    .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    .pill {
+      background: var(--accent);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      background: #111827;
+      color: white;
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -55px;
+      top: -55px;
+      background: rgba(244,183,64,0.28);
+      border-radius: 50%;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .score { font-size: 56px; line-height: 1; font-weight: 900; letter-spacing: -0.06em; }
+    .score span { font-size: 22px; color: #d1d5db; letter-spacing: 0; }
+    .grade { font-size: 54px; font-weight: 900; color: var(--gold); }
+
+    .bar {
+      height: 14px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f4b740, #22c55e); border-radius: 99px; transition: width .25s ease; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .stat b { display: block; font-size: 20px; }
+    .stat span { color: #d1d5db; font-size: 12px; }
+
+    .grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 18px; box-shadow: var(--shadow); }
+    h2 { margin: 0 0 14px; font-size: 20px; letter-spacing: -0.03em; }
+
+    .task, .choice {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      margin-bottom: 10px;
+      background: #fffdf8;
+      cursor: pointer;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .task:active, .choice:active { transform: scale(.99); }
+    .task.done, .choice.active { border-color: #86efac; background: #f0fdf4; }
+
+    .left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .icon { width: 31px; height: 31px; display: grid; place-items: center; background: #f3eadb; border-radius: 11px; flex: 0 0 auto; }
+    .name { font-weight: 750; }
+    .points { font-weight: 850; color: var(--muted); white-space: nowrap; }
+    .task.done .points, .choice.active .points { color: #15803d; }
+
+    input { accent-color: var(--green); width: 20px; height: 20px; }
+    input[type="radio"] { border-radius: 50%; }
+
+    .group-title { margin: 18px 0 9px; color: var(--muted); font-weight: 900; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .history-item:last-child { border-bottom: 0; }
+    .history-item b { font-size: 16px; }
+
+    .buttons { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    button {
+      border: 0;
+      border-radius: 15px;
+      padding: 12px 14px;
+      font-weight: 850;
+      cursor: pointer;
+      background: #111827;
+      color: white;
+      font-size: 14px;
+    }
+    button.secondary { background: #eee1cf; color: var(--ink); }
+
+    .tiny { color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 12px; }
+
+    @media (max-width: 760px) {
+      body { padding: 14px; }
+      h1 { font-size: 26px; }
+      .grid { grid-template-columns: 1fr; }
+      .score { font-size: 48px; }
+      .grade { font-size: 46px; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+      .stat { padding: 10px; }
+      .pill { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Daily Points</h1>
+        <div class="sub" id="todayText"></div>
+      </div>
+      <div class="pill">simple life score</div>
+    </header>
+
+    <section class="hero">
+      <div class="score-row">
+        <div>
+          <div class="sub" style="color:#d1d5db">Today</div>
+          <div class="score"><span id="score">0</span><span>/20</span></div>
+        </div>
+        <div class="grade" id="grade">F</div>
+      </div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
+      <div class="stats">
+        <div class="stat"><b id="streak">0</b><span>day streak</span></div>
+        <div class="stat"><b id="total">0</b><span>total points</span></div>
+        <div class="stat"><b id="average">0</b><span>avg / day</span></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Today's actions</h2>
+        <div id="tasks"></div>
+
+        <div class="group-title">Screen time: choose one</div>
+        <div id="screenGroup"></div>
+
+        <div class="group-title">Reading: choose one</div>
+        <div id="readGroup"></div>
+
+        <div class="buttons">
+          <button onclick="saveDay()">Save today</button>
+          <button class="secondary" onclick="resetToday()">Reset today</button>
+        </div>
+        <div class="tiny">Tip for iPhone: host this file online, open it in Safari, then tap Share → Add to Home Screen.</div>
+      </div>
+
+      <aside class="card">
+        <h2>Recent days</h2>
+        <div id="history"></div>
+        <div class="buttons">
+          <button class="secondary" onclick="clearHistory()">Clear history</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const MAX_POINTS = 20;
+    const todayKey = new Date().toISOString().slice(0, 10);
+
+    const tasks = [
+      { id: "run", name: "Go on a run", points: 2, icon: "🏃" },
+      { id: "cook", name: "Cook food", points: 1, icon: "🍳" },
+      { id: "yoga", name: "Do yoga", points: 1, icon: "🧘" },
+      { id: "sunset", name: "Watch a sunset", points: 0.5, icon: "🌅" },
+      { id: "work", name: "Advance well on work", points: 2, icon: "💻" },
+      { id: "steps", name: "10k steps", points: 1, icon: "👟" },
+      { id: "abs", name: "Ab workout", points: 1, icon: "🔥" },
+      { id: "doc", name: "Watch a documentary", points: 0.5, icon: "🎬" },
+      { id: "pray", name: "Pray", points: 1, icon: "🙏" }
+    ];
+
+    const groups = {
+      screen: [
+        { id: "screen4", name: "Less than 4h screen time", points: 1, icon: "📱" },
+        { id: "screen3", name: "Less than 3h screen time", points: 2, icon: "📵" }
+      ],
+      read: [
+        { id: "read30", name: "Read for 30 mins", points: 1, icon: "📖" },
+        { id: "read1", name: "Read for 1 hour", points: 2, icon: "📚" },
+        { id: "read2", name: "Read for 2 hours", points: 3, icon: "🏆" }
+      ]
+    };
+
+    let state = JSON.parse(localStorage.getItem("dailyPointsState") || "{}");
+    let history = JSON.parse(localStorage.getItem("dailyPointsHistory") || "{}");
+    if (!state[todayKey]) state[todayKey] = { tasks: {}, screen: "", read: "" };
+
+    function niceDate() {
+      document.getElementById("todayText").textContent = new Date().toLocaleDateString(undefined, {
+        weekday: "long", month: "long", day: "numeric"
+      });
+    }
+
+    function render() {
+      const today = state[todayKey];
+      document.getElementById("tasks").innerHTML = tasks.map(t => `
+        <label class="task ${today.tasks[t.id] ? "done" : ""}">
+          <span class="left"><span class="icon">${t.icon}</span><input type="checkbox" ${today.tasks[t.id] ? "checked" : ""} onchange="toggleTask('${t.id}')"><span class="name">${t.name}</span></span>
+          <span class="points">+${t.points}</span>
+        </label>
+      `).join("");
+
+      renderGroup("screenGroup", "screen", groups.screen);
+      renderGroup("readGroup", "read", groups.read);
+      updateScore();
+      renderHistory();
+    }
+
+    function renderGroup(el, group, items) {
+      const today = state[todayKey];
+      document.getElementById(el).innerHTML = items.map(t => `
+        <label class="choice ${today[group] === t.id ? "active" : ""}">
+          <span class="left"><span class="icon">${t.icon}</span><input name="${group}" type="radio" ${today[group] === t.id ? "checked" : ""} onchange="chooseGroup('${group}','${t.id}')"><span class="name">${t.name}</span></span>
+          <span class="points">+${t.points}</span>
+        </label>
+      `).join("");
+    }
+
+    function toggleTask(id) {
+      state[todayKey].tasks[id] = !state[todayKey].tasks[id];
+      persist(); render();
+    }
+
+    function chooseGroup(group, id) {
+      state[todayKey][group] = state[todayKey][group] === id ? "" : id;
+      persist(); render();
+    }
+
+    function calculateDay(day) {
+      let score = 0;
+      tasks.forEach(t => { if (day.tasks && day.tasks[t.id]) score += t.points; });
+      Object.keys(groups).forEach(g => {
+        const selected = groups[g].find(x => x.id === day[g]);
+        if (selected) score += selected.points;
+      });
+      return score;
+    }
+
+    function getGrade(score) {
+      if (score >= 19) return "A+";
+      if (score >= 17) return "A";
+      if (score >= 15) return "B";
+      if (score >= 12) return "C";
+      if (score >= 8) return "D";
+      return "F";
+    }
+
+    function updateScore() {
+      const score = calculateDay(state[todayKey]);
+      document.getElementById("score").textContent = score;
+      document.getElementById("grade").textContent = getGrade(score);
+      document.getElementById("fill").style.width = Math.min(100, (score / MAX_POINTS) * 100) + "%";
+
+      const all = Object.values(history);
+      const total = all.reduce((sum, d) => sum + d.score, score);
+      const avg = all.length ? (all.reduce((sum, d) => sum + d.score, 0) / all.length).toFixed(1) : score;
+      document.getElementById("total").textContent = total;
+      document.getElementById("average").textContent = avg;
+      document.getElementById("streak").textContent = streakCount();
+    }
+
+    function saveDay() {
+      const score = calculateDay(state[todayKey]);
+      history[todayKey] = { score, grade: getGrade(score) };
+      persist(); render();
+    }
+
+    function resetToday() {
+      state[todayKey] = { tasks: {}, screen: "", read: "" };
+      delete history[todayKey];
+      persist(); render();
+    }
+
+    function clearHistory() {
+      if (!confirm("Clear all saved history?")) return;
+      history = {};
+      persist(); render();
+    }
+
+    function streakCount() {
+      let count = 0;
+      let date = new Date();
+      while (true) {
+        const key = date.toISOString().slice(0, 10);
+        const item = key === todayKey ? { score: calculateDay(state[todayKey]) } : history[key];
+        if (!item || item.score < 15) break;
+        count++;
+        date.setDate(date.getDate() - 1);
+      }
+      return count;
+    }
+
+    function renderHistory() {
+      const entries = Object.entries(history).sort((a,b) => b[0].localeCompare(a[0])).slice(0, 10);
+      document.getElementById("history").innerHTML = entries.length ? entries.map(([date, d]) => `
+        <div class="history-item"><span>${date}</span><b>${d.score}/20 · ${d.grade}</b></div>
+      `).join("") : `<div class="tiny">No saved days yet. Press “Save today” when you finish your day.</div>`;
+    }
+
+    function persist() {
+      localStorage.setItem("dailyPointsState", JSON.stringify(state));
+      localStorage.setItem("dailyPointsHistory", JSON.stringify(history));
+    }
+
+    niceDate();
+    render();
+  </script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+  }
+</script>
+</body>
+</html>
