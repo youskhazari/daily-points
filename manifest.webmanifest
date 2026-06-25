@@ -1,10 +1,10 @@
 {
-  "name": "Daily Points",
-  "short_name": "Daily",
-  "start_url": "./",
+  "name": "Daily Points RPG",
+  "short_name": "Daily RPG",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f5eadb",
-  "theme_color": "#c6633f",
+  "background_color": "#ead7b5",
+  "theme_color": "#7f5a35",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }

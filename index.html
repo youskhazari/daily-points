@@ -3,119 +3,341 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Daily Points</title>
+  <meta name="theme-color" content="#7f5a35" />
+  <title>Daily Points RPG</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" />
-  <meta name="theme-color" content="#c6633f" />
   <style>
-    :root{--paper:#f6ecdc;--card:#fff8ec;--ink:#2d2924;--muted:#7d7063;--line:#e2d2bd;--accent:#c6633f;--green:#526b45;--gold:#b98b33;--shadow:0 12px 30px rgba(54,39,21,.12);}
-    *{box-sizing:border-box} body{margin:0;font-family:ui-rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;background:var(--paper);color:var(--ink);}
-    .wrap{max-width:520px;margin:0 auto;min-height:100vh;padding:22px 16px 36px;background:radial-gradient(circle at 15% 0%,rgba(255,255,255,.8),transparent 35%),var(--paper)}
-    header{text-align:center;padding-top:8px}.logo{width:112px;height:112px;border-radius:28px;object-fit:cover;box-shadow:var(--shadow);display:block;margin:0 auto 14px}h1{font-size:34px;line-height:1;margin:0;font-weight:650;letter-spacing:-.04em}.tag{margin:8px 0 22px;color:var(--muted);font-size:15px}
-    .score{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}.top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}.label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.big{font-size:28px;font-weight:750;margin-top:4px}.grade{color:var(--green)}.bar{height:10px;background:#eadcc7;border-radius:99px;overflow:hidden;margin-top:16px}.fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:.25s}
-    .quote{display:flex;gap:12px;align-items:center;margin:16px 4px 20px}.quote img{width:86px;height:86px;border-radius:18px;object-fit:cover}.quote p{font-size:20px;line-height:1.25;margin:0;letter-spacing:-.03em}
-    .section{background:rgba(255,248,236,.68);border:1px solid var(--line);border-radius:24px;padding:10px 14px;margin:14px 0} .section h2{font-size:16px;margin:8px 4px 10px;letter-spacing:-.02em}.item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid rgba(150,122,90,.22)}.item:first-of-type{border-top:0}.item input{width:22px;height:22px;accent-color:var(--green)}.item label{flex:1;font-size:16px}.pts{font-size:13px;color:#8f552e;background:#f4e7d4;border:1px solid #e5cfb3;border-radius:999px;padding:4px 8px;white-space:nowrap}.choice{display:grid;gap:8px;padding:4px 0 8px}.choice label{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid rgba(150,122,90,.22);border-radius:16px;background:rgba(255,255,255,.25)}.choice input{accent-color:var(--green)}
-    .buttons{display:flex;gap:10px;margin-top:16px}.buttons button{flex:1;border:0;border-radius:16px;padding:13px 12px;font-weight:700;background:var(--ink);color:white}.buttons button.secondary{background:#e5d6c1;color:var(--ink)}.history{font-size:14px;color:var(--muted);line-height:1.6}.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Press+Start+2P&display=swap');
+
+    :root{
+      --bg:#ead7b5;
+      --paper:#fff3d6;
+      --paper2:#f8e6be;
+      --ink:#2d2418;
+      --muted:#6d5b46;
+      --line:#765735;
+      --dark:#4a3220;
+      --green:#4f7b45;
+      --green2:#86ad62;
+      --blue:#49779e;
+      --red:#b55242;
+      --gold:#d39b34;
+      --shadow:#2b1d12;
+      --pixel:0 0 0 3px var(--line), 0 0 0 6px #2b1d12, 8px 8px 0 3px rgba(43,29,18,.25);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%) 0 0/22px 22px,
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.13) 75%) 0 0/22px 22px,
+        radial-gradient(circle at 20% 0%, #fff8db 0 0, transparent 34%),
+        var(--bg);
+    }
+
+    button,input{font:inherit}
+    button{cursor:pointer}
+
+    .app{max-width:760px;margin:0 auto;padding:22px 14px 40px}
+    .hero{text-align:center;margin:8px 0 22px}
+    .logo{
+      width:100px;height:100px;margin:0 auto 16px;border-radius:14px;
+      background:linear-gradient(135deg,#f9d878,#b9693e 58%,#64381d);
+      box-shadow:var(--pixel);display:grid;place-items:center;position:relative;overflow:hidden;
+    }
+    .logo:before{content:"";width:56px;height:56px;border-radius:8px;background:#fff3d6;box-shadow:0 0 0 6px #4a3220;transform:rotate(45deg)}
+    .logo:after{content:"★";position:absolute;font-size:36px;color:#d39b34;text-shadow:2px 2px #4a3220}
+    h1{font-family:"Press Start 2P",monospace;font-size:clamp(22px,5vw,38px);line-height:1.25;margin:0;text-shadow:3px 3px #f8e6be;color:#3a2719}
+    .tag{margin:12px 0 0;color:var(--muted);font-weight:700}
+
+    .panel{
+      background:var(--paper);
+      border:4px solid var(--line);
+      box-shadow:var(--pixel);
+      border-radius:10px;
+      padding:16px;
+      margin:18px 0;
+    }
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .stat{background:var(--paper2);border:3px solid var(--line);border-radius:8px;padding:12px 8px;text-align:center}
+    .stat small{display:block;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-size:11px;font-weight:800}
+    .stat strong{display:block;margin-top:6px;font-size:24px;font-weight:900}
+
+    .xp-wrap{margin-top:16px}
+    .xp-label{display:flex;justify-content:space-between;font-weight:900;font-size:13px;margin-bottom:7px;color:var(--dark)}
+    .xp-bar,.score-bar{height:22px;background:#d0b481;border:4px solid var(--dark);border-radius:4px;overflow:hidden;image-rendering:pixelated}
+    .xp-fill,.score-fill{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--green),var(--green) 12px,var(--green2) 12px,var(--green2) 20px);transition:width .35s ease}
+    .score-fill{background:repeating-linear-gradient(90deg,var(--gold),var(--gold) 12px,#f0c75d 12px,#f0c75d 20px)}
+
+    .quest-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    h2{font-family:"Press Start 2P",monospace;font-size:15px;line-height:1.4;margin:0;color:var(--dark)}
+    .section-title{margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+    .section-title span{font-size:24px}
+    .subtitle{margin:0 0 10px;color:var(--muted);font-weight:700}
+
+    .quest{display:grid;gap:10px}
+    .item{
+      display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
+      background:rgba(255,255,255,.32);border:3px solid #9b7650;border-radius:8px;padding:12px;
+      transition:transform .12s ease,background .12s ease;
+    }
+    .item:has(input:checked){background:#e2f0c9;transform:translateY(-1px)}
+    .item input{width:22px;height:22px;accent-color:var(--green)}
+    .item label{font-weight:800}
+    .pts{font-size:12px;font-weight:900;color:#fff;background:var(--red);border:2px solid var(--dark);border-radius:4px;padding:4px 8px;white-space:nowrap}
+
+    .choice{display:grid;gap:8px}
+    .choice-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:rgba(255,255,255,.32);border:3px solid #9b7650;border-radius:8px;padding:12px}
+    .choice-row strong{font-size:16px}
+    .options{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+    .option{display:flex;align-items:center;gap:6px;background:#f8e6be;border:2px solid var(--line);border-radius:6px;padding:7px 8px;font-weight:800}
+    .option input{accent-color:var(--blue)}
+
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+    .btn{border:4px solid var(--dark);border-radius:8px;padding:14px 12px;background:var(--green);color:white;font-weight:900;box-shadow:4px 4px 0 rgba(43,29,18,.35)}
+    .btn.secondary{background:#d7c197;color:var(--dark)}
+    .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(43,29,18,.35)}
+
+    .history{display:grid;gap:8px;margin-top:12px}
+    .history-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:var(--paper2);border:2px solid #9b7650;border-radius:6px;padding:9px 10px;font-weight:800}
+    .badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+    .badge{background:#d7c197;border:3px solid #9b7650;border-radius:8px;padding:12px;opacity:.45;font-weight:900}
+    .badge.unlocked{background:#ffe7a0;opacity:1;border-color:var(--gold)}
+    .badge small{display:block;margin-top:5px;color:var(--muted);font-weight:800}
+
+    .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(140%);background:#fff3d6;border:4px solid var(--dark);box-shadow:var(--pixel);border-radius:10px;padding:16px 18px;font-weight:900;text-align:center;z-index:10;transition:.3s ease;max-width:90vw}
+    .toast.show{transform:translateX(-50%) translateY(0)}
+    .foot{text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:24px 0 0}
+
+    @media(max-width:620px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .choice-row{grid-template-columns:1fr}
+      .options{justify-content:flex-start}
+      .actions{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <header>
-      <img class="logo" src="logo.png" alt="Daily Points logo">
-      <h1>Daily Points</h1>
-      <p class="tag">Small things, counted gently.</p>
+  <main class="app">
+    <header class="hero">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>Daily Points RPG</h1>
+      <p class="tag">Small quests. Real XP. Gentle progress.</p>
     </header>
 
-    <section class="score">
-      <div class="top">
-        <div><div class="label">Today</div><div class="big"><span id="score">0</span>/18</div></div>
-        <div><div class="label">Grade</div><div class="big grade" id="grade">F</div></div>
-        <div><div class="label">Streak</div><div class="big"><span id="streak">0</span>🔥</div></div>
+    <section class="panel">
+      <div class="stats">
+        <div class="stat"><small>Today</small><strong><span id="score">0</span>/20</strong></div>
+        <div class="stat"><small>Rank</small><strong id="rank">F</strong></div>
+        <div class="stat"><small>Level</small><strong id="level">1</strong></div>
+        <div class="stat"><small>Streak</small><strong><span id="streak">0</span>🔥</strong></div>
       </div>
-      <div class="bar"><div class="fill" id="fill"></div></div>
+      <div class="xp-wrap">
+        <div class="xp-label"><span>Daily progress</span><span id="dailyPct">0%</span></div>
+        <div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
+      </div>
+      <div class="xp-wrap">
+        <div class="xp-label"><span>XP to next level</span><span id="xpText">0 / 1000 XP</span></div>
+        <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+      </div>
     </section>
 
-    <div class="quote"><img src="logo.png" alt=""><p>The things we do<br>do things to us.</p></div>
+    <section class="panel">
+      <div class="quest-head">
+        <h2>Quest Log</h2>
+        <strong id="todayDate"></strong>
+      </div>
+      <div id="quests"></div>
+      <div class="actions">
+        <button class="btn" id="saveBtn">Save today</button>
+        <button class="btn secondary" id="resetBtn">Reset today</button>
+      </div>
+    </section>
 
+    <section class="panel">
+      <h2>Milestones</h2>
+      <div class="badge-grid" id="badges"></div>
+    </section>
 
-    <section class="section">
-  <h2>🌿 Move</h2>
-  <p class="subtitle">Care for your body.</p>
+    <section class="panel">
+      <h2>History</h2>
+      <div class="history" id="history">No saved days yet.</div>
+    </section>
 
-  <div class="item"><input type="checkbox" data-points="2" id="run"><label for="run">Go on a run</label><span class="pts">2 pts</span></div>
-
-  <div class="item"><input type="checkbox" data-points="2" id="sport"><label for="sport">1 hour of any sport</label><span class="pts">2 pts</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="yoga"><label for="yoga">Do yoga</label><span class="pts">1 pt</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="steps"><label for="steps">10k steps</label><span class="pts">1 pt</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="abs"><label for="abs">Ab workout</label><span class="pts">1 pt</span></div>
-</section>
-
-<section class="section">
-  <h2>🎨 Create</h2>
-  <p class="subtitle">Build, make, contribute.</p>
-
-  <div class="item"><input type="checkbox" data-points="2" id="work"><label for="work">Advance well on work</label><span class="pts">2 pts</span></div>
-
-  <div class="item"><input type="checkbox" data-points="2" id="art"><label for="art">Do an artistic activity</label><span class="pts">2 pts</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="cook"><label for="cook">Cook food</label><span class="pts">1 pt</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="tidy"><label for="tidy">Tidy up the house</label><span class="pts">1 pt</span></div>
-</section>
-
-<section class="section">
-  <h2>🌅 Be Present</h2>
-  <p class="subtitle">Slow down and appreciate.</p>
-
-  <div class="item"><input type="checkbox" data-points="1" id="sunset"><label for="sunset">Watch a sunset</label><span class="pts">1 pt</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="pray"><label for="pray">Pray</label><span class="pts">1 pt</span></div>
-
-  <div class="item"><input type="checkbox" data-points="1" id="doc"><label for="doc">Watch a documentary</label><span class="pts">1 pt</span></div>
-</section>
-
-<section class="section">
-  <h2>📚 Grow</h2>
-  <p class="subtitle">Feed your mind.</p>
-
-  <div class="item">
-    <label>Reading</label>
-    <span>
-      <input type="radio" name="reading" data-points="1">30 min
-      <input type="radio" name="reading" data-points="2">1 h
-      <input type="radio" name="reading" data-points="3">2 h
-    </span>
-  </div>
-
-  <div class="item">
-    <label>Screen time</label>
-    <span>
-      <input type="radio" name="screen" data-points="1">&lt;4 h
-      <input type="radio" name="screen" data-points="2">&lt;3 h
-    </span>
-  </div>
-</section>
-
-
-    <div class="buttons"><button id="save">Save today</button><button class="secondary" id="reset">Reset</button></div>
-    <section class="section"><h2>History</h2><div class="history" id="history">No saved days yet.</div></section>
-    <div class="foot">Updates should appear faster now because offline caching is disabled.</div>
+    <p class="foot">Data is stored only in this browser using LocalStorage. GitHub Pages ready.</p>
   </main>
-<script>
-const MAX=18, todayKey=()=>new Date().toISOString().slice(0,10);
-const ids=[...document.querySelectorAll('input')];
-function grade(p){return p>=.9?'A+':p>=.8?'A':p>=.7?'B':p>=.55?'C':p>=.4?'D':'F'}
-function score(){let s=0;document.querySelectorAll('input[type=checkbox]:checked').forEach(x=>s+=+x.dataset.points);s+=+document.querySelector('input[name=screen]:checked').value;s+=+document.querySelector('input[name=reading]:checked').value;return s}
-function load(){let d=JSON.parse(localStorage.getItem('daily-points-state')||'{}')[todayKey()]||{};ids.forEach(i=>{if(i.type==='checkbox')i.checked=!!d[i.id];else if(d[i.name]===i.value)i.checked=true});update()}
-function save(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}');let d={score:score()};ids.forEach(i=>{if(i.type==='checkbox')d[i.id]=i.checked;else if(i.checked)d[i.name]=i.value});all[todayKey()]=d;localStorage.setItem('daily-points-state',JSON.stringify(all));renderHistory()}
-function reset(){ids.forEach(i=>{if(i.type==='checkbox')i.checked=false; if(i.type==='radio'&&i.value==='0')i.checked=true});update();save()}
-function streak(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}'), n=0, d=new Date(); while(true){let k=d.toISOString().slice(0,10), v=all[k]?.score||0; if(v/MAX>=.7)n++; else break; d.setDate(d.getDate()-1)} return n}
-function renderHistory(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}');let rows=Object.keys(all).sort().reverse().slice(0,7).map(k=>`${k}: ${all[k].score}/18 — ${grade(all[k].score/MAX)}`);document.getElementById('history').innerHTML=rows.length?rows.join('<br>'):'No saved days yet.';document.getElementById('streak').textContent=streak()}
-function update(){let s=score(), p=s/MAX;document.getElementById('score').textContent=Number.isInteger(s)?s:s.toFixed(1);document.getElementById('grade').textContent=grade(p);document.getElementById('fill').style.width=Math.min(100,p*100)+'%';renderHistory()}
-ids.forEach(i=>i.addEventListener('change',()=>{update();save()}));document.getElementById('save').onclick=save;document.getElementById('reset').onclick=reset;load();
-</script>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const MAX_POINTS = 20;
+    const XP_PER_POINT = 100;
+    const STORAGE_KEY = 'daily-points-rpg-v1';
+
+    const habits = [
+      { section:'Move', icon:'🌿', subtitle:'Care for your body.', type:'check', id:'run', name:'Go on a run', points:2 },
+      { section:'Move', icon:'🌿', subtitle:'Care for your body.', type:'check', id:'sport', name:'1 hour of any sport', points:2 },
+      { section:'Move', icon:'🌿', subtitle:'Care for your body.', type:'check', id:'yoga', name:'Do yoga', points:1 },
+      { section:'Move', icon:'🌿', subtitle:'Care for your body.', type:'check', id:'steps', name:'10k steps', points:1 },
+      { section:'Move', icon:'🌿', subtitle:'Care for your body.', type:'check', id:'abs', name:'Ab workout', points:2 },
+      { section:'Create', icon:'🎨', subtitle:'Build, make, contribute.', type:'check', id:'work', name:'Advance well on work', points:2 },
+      { section:'Create', icon:'🎨', subtitle:'Build, make, contribute.', type:'check', id:'art', name:'Do an artistic activity', points:2 },
+      { section:'Create', icon:'🎨', subtitle:'Build, make, contribute.', type:'check', id:'cook', name:'Cook food', points:2 },
+      { section:'Create', icon:'🎨', subtitle:'Build, make, contribute.', type:'check', id:'tidy', name:'Tidy up the house', points:1 },
+      { section:'Be Present', icon:'🌅', subtitle:'Slow down and appreciate.', type:'check', id:'pray', name:'Pray', points:1 },
+      { section:'Be Present', icon:'🌅', subtitle:'Slow down and appreciate.', type:'check', id:'sunset', name:'Watch a sunset', points:1 },
+      { section:'Be Present', icon:'🌅', subtitle:'Slow down and appreciate.', type:'check', id:'doc', name:'Watch a documentary', points:1 },
+      { section:'Grow', icon:'📚', subtitle:'Feed your mind.', type:'choice', id:'reading', name:'Reading', options:[
+        { label:'None', points:0 }, { label:'30 min', points:1 }, { label:'1 h', points:2 }, { label:'2 h', points:3 }
+      ]},
+      { section:'Grow', icon:'📚', subtitle:'Feed your mind.', type:'choice', id:'screen', name:'Screen time', options:[
+        { label:'None', points:0 }, { label:'<4 h', points:1 }, { label:'<3 h', points:2 }
+      ]}
+    ];
+
+    const milestones = [
+      { id:'first', name:'First Quest', desc:'Save your first day.', test:s=>Object.keys(s.days).length>=1 },
+      { id:'rankA', name:'A Rank', desc:'Reach 80% in one day.', test:s=>Object.values(s.days).some(d=>d.score/MAX_POINTS>=.8) },
+      { id:'seven', name:'7-Day Flame', desc:'Build a 7-day streak.', test:s=>getStreak(s.days)>=7 },
+      { id:'level5', name:'Level 5', desc:'Reach level 5.', test:s=>getLevel(totalXP(s.days)).level>=5 },
+      { id:'hero', name:'Daily Hero', desc:'Score 20/20 once.', test:s=>Object.values(s.days).some(d=>d.score>=20) }
+    ];
+
+    const $ = id => document.getElementById(id);
+    const todayKey = () => new Date().toISOString().slice(0,10);
+
+    function defaultState(){ return { days:{} }; }
+    function loadState(){
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultState(); }
+      catch { return defaultState(); }
+    }
+    function saveState(state){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function rank(score){ const p=score/MAX_POINTS; return p>=1?'S':p>=.9?'A+':p>=.8?'A':p>=.7?'B':p>=.55?'C':p>=.4?'D':'F'; }
+    function totalXP(days){ return Object.values(days).reduce((sum,d)=>sum+(d.score||0)*XP_PER_POINT+(d.bonusXP||0),0); }
+    function getLevel(xp){
+      let level=1, need=1000, left=xp;
+      while(left>=need){ left-=need; level++; need=Math.round(1000*Math.pow(1.18,level-1)); }
+      return { level, current:left, need };
+    }
+    function getStreak(days){
+      let count=0, d=new Date();
+      while(true){
+        const k=d.toISOString().slice(0,10);
+        if((days[k]?.score||0)/MAX_POINTS >= .7){ count++; d.setDate(d.getDate()-1); }
+        else break;
+      }
+      return count;
+    }
+
+    function renderQuests(){
+      const root=$('quests'); root.innerHTML='';
+      const sections=[...new Set(habits.map(h=>h.section))];
+      sections.forEach(section=>{
+        const items=habits.filter(h=>h.section===section);
+        const title=document.createElement('div');
+        title.className='section-title';
+        title.innerHTML=`<span>${items[0].icon}</span><h2>${section}</h2>`;
+        root.appendChild(title);
+        const sub=document.createElement('p'); sub.className='subtitle'; sub.textContent=items[0].subtitle; root.appendChild(sub);
+        const group=document.createElement('div'); group.className='quest';
+        items.forEach(h=>group.appendChild(h.type==='check'?checkItem(h):choiceItem(h)));
+        root.appendChild(group);
+      });
+    }
+
+    function checkItem(h){
+      const div=document.createElement('div'); div.className='item';
+      div.innerHTML=`<input type="checkbox" id="${h.id}" data-id="${h.id}" data-points="${h.points}"><label for="${h.id}">${h.name}</label><span class="pts">${h.points} pt${h.points>1?'s':''}</span>`;
+      return div;
+    }
+
+    function choiceItem(h){
+      const div=document.createElement('div'); div.className='choice-row';
+      const opts=h.options.map(o=>`<label class="option"><input type="radio" name="${h.id}" value="${o.points}" data-id="${h.id}" data-points="${o.points}">${o.label}</label>`).join('');
+      div.innerHTML=`<strong>${h.name}</strong><div class="options">${opts}</div>`;
+      return div;
+    }
+
+    function currentScore(){
+      let score=0;
+      document.querySelectorAll('input[type=checkbox]:checked').forEach(i=>score+=Number(i.dataset.points||0));
+      document.querySelectorAll('input[type=radio]:checked').forEach(i=>score+=Number(i.dataset.points||0));
+      return score;
+    }
+
+    function readForm(){
+      const data={score:currentScore(), checks:{}, choices:{}};
+      document.querySelectorAll('input[type=checkbox]').forEach(i=>data.checks[i.dataset.id]=i.checked);
+      document.querySelectorAll('input[type=radio]:checked').forEach(i=>data.choices[i.name]=Number(i.value));
+      return data;
+    }
+
+    function applyForm(day){
+      document.querySelectorAll('input[type=checkbox]').forEach(i=>i.checked=!!day?.checks?.[i.dataset.id]);
+      document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+      habits.filter(h=>h.type==='choice').forEach(h=>{
+        const val = day?.choices?.[h.id] ?? 0;
+        const input = document.querySelector(`input[name="${h.id}"][value="${val}"]`);
+        if(input) input.checked=true;
+      });
+    }
+
+    function persistToday(show=false){
+      const state=loadState();
+      const beforeLevel=getLevel(totalXP(state.days)).level;
+      const day=readForm();
+      const tmpDays={...state.days,[todayKey()]:day};
+      const streak=getStreak(tmpDays);
+      if(streak>0 && streak%7===0) day.bonusXP=50;
+      state.days[todayKey()]=day;
+      saveState(state);
+      renderAll();
+      const afterLevel=getLevel(totalXP(state.days)).level;
+      if(afterLevel>beforeLevel) toast(`LEVEL UP!<br>You reached Level ${afterLevel}.`);
+      else if(show) toast('Saved today!');
+    }
+
+    function renderStats(){
+      const state=loadState();
+      const score=currentScore(); const pct=Math.min(100,Math.round(score/MAX_POINTS*100));
+      const xp=totalXP(state.days); const lvl=getLevel(xp);
+      $('score').textContent=score;
+      $('rank').textContent=rank(score);
+      $('dailyPct').textContent=pct+'%';
+      $('scoreFill').style.width=pct+'%';
+      $('level').textContent=lvl.level;
+      $('xpText').textContent=`${lvl.current} / ${lvl.need} XP`;
+      $('xpFill').style.width=Math.round(lvl.current/lvl.need*100)+'%';
+      $('streak').textContent=getStreak(state.days);
+    }
+
+    function renderHistory(){
+      const rows=Object.entries(loadState().days).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10);
+      $('history').innerHTML = rows.length ? rows.map(([date,d])=>`<div class="history-row"><span>${date}</span><span>${d.score}/20</span><span>${rank(d.score)}</span></div>`).join('') : 'No saved days yet.';
+    }
+
+    function renderBadges(){
+      const state=loadState();
+      $('badges').innerHTML=milestones.map(m=>`<div class="badge ${m.test(state)?'unlocked':''}">🏆 ${m.name}<small>${m.desc}</small></div>`).join('');
+    }
+
+    function renderAll(){ renderStats(); renderHistory(); renderBadges(); }
+    function toast(msg){ const el=$('toast'); el.innerHTML=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2200); }
+
+    function init(){
+      $('todayDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+      renderQuests();
+      const state=loadState();
+      applyForm(state.days[todayKey()]);
+      document.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>persistToday(false)));
+      $('saveBtn').addEventListener('click',()=>persistToday(true));
+      $('resetBtn').addEventListener('click',()=>{ applyForm({checks:{},choices:{reading:0,screen:0}}); persistToday(true); });
+      renderAll();
+    }
+    init();
+  </script>
 </body>
 </html>
