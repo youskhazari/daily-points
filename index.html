@@ -37,39 +37,68 @@
 
     <div class="quote"><img src="logo.png" alt=""><p>The things we do<br>do things to us.</p></div>
 
-    <section class="section">
-      <h2>Today</h2>
-      <div class="item"><input type="checkbox" data-points="2" id="run"><label for="run">Go on a run</label><span class="pts">2 pts</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="cook"><label for="cook">Cook food</label><span class="pts">1 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="yoga"><label for="yoga">Do yoga</label><span class="pts">1 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="0.5" id="sunset"><label for="sunset">Watch a sunset</label><span class="pts">0.5 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="2" id="work"><label for="work">Advance well on work</label><span class="pts">2 pts</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="steps"><label for="steps">10k steps</label><span class="pts">1 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="abs"><label for="abs">Ab workout</label><span class="pts">1 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="0.5" id="doc"><label for="doc">Watch a documentary</label><span class="pts">0.5 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="pray"><label for="pray">Pray</label><span class="pts">1 pt</span></div>
-      <div class="item"><input type="checkbox" data-points="2" id="art"><label for="art">Do an artistic activity</label><span class="pts">2 pts</span></div>
-      <div class="item"><input type="checkbox" data-points="1" id="tidy"><label for="tidy">Tidy up the house</label><span class="pts">1 pt</span></div>
-    </section>
 
     <section class="section">
-      <h2>Screen time</h2>
-      <div class="choice" data-group="screen">
-        <label><input type="radio" name="screen" value="0" checked> None</label>
-        <label><input type="radio" name="screen" value="1"> Less than 4h <span class="pts">1 pt</span></label>
-        <label><input type="radio" name="screen" value="2"> Less than 3h <span class="pts">2 pts</span></label>
-      </div>
-    </section>
+  <h2>🌿 Move</h2>
+  <p class="subtitle">Care for your body.</p>
 
-    <section class="section">
-      <h2>Reading</h2>
-      <div class="choice" data-group="reading">
-        <label><input type="radio" name="reading" value="0" checked> None</label>
-        <label><input type="radio" name="reading" value="1"> 30 minutes <span class="pts">1 pt</span></label>
-        <label><input type="radio" name="reading" value="2"> 1 hour <span class="pts">2 pts</span></label>
-        <label><input type="radio" name="reading" value="3"> 2 hours <span class="pts">3 pts</span></label>
-      </div>
-    </section>
+  <div class="item"><input type="checkbox" data-points="2" id="run"><label for="run">Go on a run</label><span class="pts">2 pts</span></div>
+
+  <div class="item"><input type="checkbox" data-points="2" id="sport"><label for="sport">1 hour of any sport</label><span class="pts">2 pts</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="yoga"><label for="yoga">Do yoga</label><span class="pts">1 pt</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="steps"><label for="steps">10k steps</label><span class="pts">1 pt</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="abs"><label for="abs">Ab workout</label><span class="pts">1 pt</span></div>
+</section>
+
+<section class="section">
+  <h2>🎨 Create</h2>
+  <p class="subtitle">Build, make, contribute.</p>
+
+  <div class="item"><input type="checkbox" data-points="2" id="work"><label for="work">Advance well on work</label><span class="pts">2 pts</span></div>
+
+  <div class="item"><input type="checkbox" data-points="2" id="art"><label for="art">Do an artistic activity</label><span class="pts">2 pts</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="cook"><label for="cook">Cook food</label><span class="pts">1 pt</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="tidy"><label for="tidy">Tidy up the house</label><span class="pts">1 pt</span></div>
+</section>
+
+<section class="section">
+  <h2>🌅 Be Present</h2>
+  <p class="subtitle">Slow down and appreciate.</p>
+
+  <div class="item"><input type="checkbox" data-points="1" id="sunset"><label for="sunset">Watch a sunset</label><span class="pts">1 pt</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="pray"><label for="pray">Pray</label><span class="pts">1 pt</span></div>
+
+  <div class="item"><input type="checkbox" data-points="1" id="doc"><label for="doc">Watch a documentary</label><span class="pts">1 pt</span></div>
+</section>
+
+<section class="section">
+  <h2>📚 Grow</h2>
+  <p class="subtitle">Feed your mind.</p>
+
+  <div class="item">
+    <label>Reading</label>
+    <span>
+      <input type="radio" name="reading" data-points="1">30 min
+      <input type="radio" name="reading" data-points="2">1 h
+      <input type="radio" name="reading" data-points="3">2 h
+    </span>
+  </div>
+
+  <div class="item">
+    <label>Screen time</label>
+    <span>
+      <input type="radio" name="screen" data-points="1">&lt;4 h
+      <input type="radio" name="screen" data-points="2">&lt;3 h
+    </span>
+  </div>
+</section>
+
 
     <div class="buttons"><button id="save">Save today</button><button class="secondary" id="reset">Reset</button></div>
     <section class="section"><h2>History</h2><div class="history" id="history">No saved days yet.</div></section>
