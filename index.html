@@ -3,191 +3,90 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#efe4d2" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Daily Points" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
   <title>Daily Points</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.png" />
+  <meta name="theme-color" content="#c6633f" />
   <style>
-    :root {
-      --paper: #f4ead9;
-      --card: #fff9ef;
-      --ink: #27221b;
-      --muted: #7a6d5b;
-      --line: #e1d2bd;
-      --green: #506849;
-      --rust: #b95a37;
-      --gold: #c39543;
-      --shadow: 0 14px 40px rgba(76, 55, 28, .12);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 18% 12%, rgba(185,90,55,.10), transparent 25%),
-        radial-gradient(circle at 90% 0%, rgba(80,104,73,.10), transparent 28%),
-        var(--paper);
-      min-height: 100vh;
-    }
-    .app { width: min(680px, 100%); margin: 0 auto; padding: 18px 16px 32px; }
-    header { display: flex; align-items: center; gap: 14px; padding: 6px 2px 16px; }
-    .logo { width: 66px; height: 66px; border-radius: 20px; object-fit: cover; box-shadow: 0 8px 22px rgba(52,38,23,.16); border: 1px solid rgba(60,42,22,.08); }
-    h1 { margin: 0; font-size: 30px; letter-spacing: -.03em; font-weight: 750; }
-    .subtitle { margin-top: 3px; color: var(--muted); font-size: 14px; }
-    .quote { margin: 6px 0 18px; padding: 12px 14px; border: 1px dashed #d5bfa1; border-radius: 18px; color: #574b3c; background: rgba(255,249,239,.54); line-height: 1.35; }
-    .score-card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); padding: 18px; }
-    .score-top { display: grid; grid-template-columns: 1.3fr .8fr .9fr; gap: 12px; align-items: center; }
-    .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-    .big { font-size: 36px; line-height: 1; font-weight: 760; letter-spacing: -.04em; }
-    .grade { color: var(--green); }
-    .streak { color: var(--rust); }
-    .progress { height: 10px; background: #e8dccb; border-radius: 999px; margin-top: 14px; overflow: hidden; }
-    .bar { height: 100%; width: 0%; background: var(--rust); border-radius: 999px; transition: width .25s ease; }
-    .section { margin-top: 18px; background: rgba(255,249,239,.72); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
-    .section h2 { margin: 0; padding: 15px 16px 10px; font-size: 18px; }
-    .task { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid rgba(225,210,189,.72); min-height: 54px; }
-    .task:first-of-type { border-top: 0; }
-    .task input { width: 22px; height: 22px; accent-color: var(--green); flex: 0 0 auto; }
-    .task-name { flex: 1; font-size: 16px; }
-    .pts { font-size: 13px; color: #8b552c; background: #f4e5d0; border: 1px solid #e5c9a9; padding: 4px 8px; border-radius: 999px; white-space: nowrap; }
-    .group { padding: 8px 0 2px; border-top: 1px solid rgba(225,210,189,.72); }
-    .group-title { padding: 6px 16px; color: var(--muted); font-size: 13px; font-weight: 700; }
-    .actions { display: flex; gap: 10px; margin-top: 16px; }
-    button { border: 0; border-radius: 16px; padding: 13px 14px; font-weight: 750; font-size: 15px; cursor: pointer; }
-    .primary { flex: 1; background: var(--green); color: #fffaf1; }
-    .secondary { background: #eadbc6; color: #4e4132; }
-    .history { margin-top: 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
-    .history strong { color: var(--ink); }
-    @media (max-width: 420px) {
-      .score-top { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-      .big { font-size: 31px; }
-      h1 { font-size: 27px; }
-      .task-name { font-size: 15px; }
-    }
+    :root{--paper:#f6ecdc;--card:#fff8ec;--ink:#2d2924;--muted:#7d7063;--line:#e2d2bd;--accent:#c6633f;--green:#526b45;--gold:#b98b33;--shadow:0 12px 30px rgba(54,39,21,.12);}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;background:var(--paper);color:var(--ink);}
+    .wrap{max-width:520px;margin:0 auto;min-height:100vh;padding:22px 16px 36px;background:radial-gradient(circle at 15% 0%,rgba(255,255,255,.8),transparent 35%),var(--paper)}
+    header{text-align:center;padding-top:8px}.logo{width:112px;height:112px;border-radius:28px;object-fit:cover;box-shadow:var(--shadow);display:block;margin:0 auto 14px}h1{font-size:34px;line-height:1;margin:0;font-weight:650;letter-spacing:-.04em}.tag{margin:8px 0 22px;color:var(--muted);font-size:15px}
+    .score{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}.top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}.label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.big{font-size:28px;font-weight:750;margin-top:4px}.grade{color:var(--green)}.bar{height:10px;background:#eadcc7;border-radius:99px;overflow:hidden;margin-top:16px}.fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:.25s}
+    .quote{display:flex;gap:12px;align-items:center;margin:16px 4px 20px}.quote img{width:86px;height:86px;border-radius:18px;object-fit:cover}.quote p{font-size:20px;line-height:1.25;margin:0;letter-spacing:-.03em}
+    .section{background:rgba(255,248,236,.68);border:1px solid var(--line);border-radius:24px;padding:10px 14px;margin:14px 0} .section h2{font-size:16px;margin:8px 4px 10px;letter-spacing:-.02em}.item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid rgba(150,122,90,.22)}.item:first-of-type{border-top:0}.item input{width:22px;height:22px;accent-color:var(--green)}.item label{flex:1;font-size:16px}.pts{font-size:13px;color:#8f552e;background:#f4e7d4;border:1px solid #e5cfb3;border-radius:999px;padding:4px 8px;white-space:nowrap}.choice{display:grid;gap:8px;padding:4px 0 8px}.choice label{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid rgba(150,122,90,.22);border-radius:16px;background:rgba(255,255,255,.25)}.choice input{accent-color:var(--green)}
+    .buttons{display:flex;gap:10px;margin-top:16px}.buttons button{flex:1;border:0;border-radius:16px;padding:13px 12px;font-weight:700;background:var(--ink);color:white}.buttons button.secondary{background:#e5d6c1;color:var(--ink)}.history{font-size:14px;color:var(--muted);line-height:1.6}.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
   </style>
 </head>
 <body>
-  <main class="app">
+  <main class="wrap">
     <header>
-      <img class="logo" src="logo.png" alt="The things we do do things to us" />
-      <div>
-        <h1>Daily Points</h1>
-        <div class="subtitle">Small things, counted gently.</div>
-      </div>
+      <img class="logo" src="logo.png" alt="Daily Points logo">
+      <h1>Daily Points</h1>
+      <p class="tag">Small things, counted gently.</p>
     </header>
 
-    <div class="quote">“The things we do, do things to us.”</div>
-
-    <section class="score-card">
-      <div class="score-top">
-        <div><div class="label">Today</div><div class="big"><span id="score">0</span><span style="font-size:18px;color:var(--muted)"> / 20</span></div></div>
+    <section class="score">
+      <div class="top">
+        <div><div class="label">Today</div><div class="big"><span id="score">0</span>/18</div></div>
         <div><div class="label">Grade</div><div class="big grade" id="grade">F</div></div>
-        <div><div class="label">Streak</div><div class="big streak"><span id="streak">0</span>🔥</div></div>
+        <div><div class="label">Streak</div><div class="big"><span id="streak">0</span>🔥</div></div>
       </div>
-      <div class="progress"><div class="bar" id="bar"></div></div>
-      <div class="history" id="summary"></div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
     </section>
 
-    <section class="section" id="tasks">
+    <div class="quote"><img src="logo.png" alt=""><p>The things we do<br>do things to us.</p></div>
+
+    <section class="section">
       <h2>Today</h2>
-      <label class="task"><input type="checkbox" data-id="run" data-points="2"><span class="task-name">Go on a run</span><span class="pts">2 pts</span></label>
-      <label class="task"><input type="checkbox" data-id="cook" data-points="1"><span class="task-name">Cook food</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="yoga" data-points="1"><span class="task-name">Do yoga</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="steps" data-points="1"><span class="task-name">10k steps</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="abs" data-points="1"><span class="task-name">Ab workout</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="pray" data-points="1"><span class="task-name">Pray</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="work" data-points="2"><span class="task-name">Advance well on work</span><span class="pts">2 pts</span></label>
-      <label class="task"><input type="checkbox" data-id="art" data-points="2"><span class="task-name">Do an artistic activity</span><span class="pts">2 pts</span></label>
-      <label class="task"><input type="checkbox" data-id="tidy" data-points="1"><span class="task-name">Tidy up the house</span><span class="pts">1 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="sunset" data-points="0.5"><span class="task-name">Watch a sunset</span><span class="pts">0.5 pt</span></label>
-      <label class="task"><input type="checkbox" data-id="doc" data-points="0.5"><span class="task-name">Watch a documentary</span><span class="pts">0.5 pt</span></label>
+      <div class="item"><input type="checkbox" data-points="2" id="run"><label for="run">Go on a run</label><span class="pts">2 pts</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="cook"><label for="cook">Cook food</label><span class="pts">1 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="yoga"><label for="yoga">Do yoga</label><span class="pts">1 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="0.5" id="sunset"><label for="sunset">Watch a sunset</label><span class="pts">0.5 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="2" id="work"><label for="work">Advance well on work</label><span class="pts">2 pts</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="steps"><label for="steps">10k steps</label><span class="pts">1 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="abs"><label for="abs">Ab workout</label><span class="pts">1 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="0.5" id="doc"><label for="doc">Watch a documentary</label><span class="pts">0.5 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="pray"><label for="pray">Pray</label><span class="pts">1 pt</span></div>
+      <div class="item"><input type="checkbox" data-points="2" id="art"><label for="art">Do an artistic activity</label><span class="pts">2 pts</span></div>
+      <div class="item"><input type="checkbox" data-points="1" id="tidy"><label for="tidy">Tidy up the house</label><span class="pts">1 pt</span></div>
+    </section>
 
-      <div class="group">
-        <div class="group-title">Screen time</div>
-        <label class="task"><input type="radio" name="screen" data-id="screen4" data-points="1"><span class="task-name">Less than 4h screen time</span><span class="pts">1 pt</span></label>
-        <label class="task"><input type="radio" name="screen" data-id="screen3" data-points="2"><span class="task-name">Less than 3h screen time</span><span class="pts">2 pts</span></label>
-      </div>
-
-      <div class="group">
-        <div class="group-title">Reading</div>
-        <label class="task"><input type="radio" name="reading" data-id="read30" data-points="1"><span class="task-name">Read for 30 minutes</span><span class="pts">1 pt</span></label>
-        <label class="task"><input type="radio" name="reading" data-id="read1" data-points="2"><span class="task-name">Read for 1 hour</span><span class="pts">2 pts</span></label>
-        <label class="task"><input type="radio" name="reading" data-id="read2" data-points="3"><span class="task-name">Read for 2 hours</span><span class="pts">3 pts</span></label>
+    <section class="section">
+      <h2>Screen time</h2>
+      <div class="choice" data-group="screen">
+        <label><input type="radio" name="screen" value="0" checked> None</label>
+        <label><input type="radio" name="screen" value="1"> Less than 4h <span class="pts">1 pt</span></label>
+        <label><input type="radio" name="screen" value="2"> Less than 3h <span class="pts">2 pts</span></label>
       </div>
     </section>
 
-    <div class="actions">
-      <button class="primary" id="saveBtn">Save today</button>
-      <button class="secondary" id="resetBtn">Clear</button>
-    </div>
+    <section class="section">
+      <h2>Reading</h2>
+      <div class="choice" data-group="reading">
+        <label><input type="radio" name="reading" value="0" checked> None</label>
+        <label><input type="radio" name="reading" value="1"> 30 minutes <span class="pts">1 pt</span></label>
+        <label><input type="radio" name="reading" value="2"> 1 hour <span class="pts">2 pts</span></label>
+        <label><input type="radio" name="reading" value="3"> 2 hours <span class="pts">3 pts</span></label>
+      </div>
+    </section>
 
-    <div class="history" id="history"></div>
+    <div class="buttons"><button id="save">Save today</button><button class="secondary" id="reset">Reset</button></div>
+    <section class="section"><h2>History</h2><div class="history" id="history">No saved days yet.</div></section>
+    <div class="foot">Updates should appear faster now because offline caching is disabled.</div>
   </main>
-
-  <script>
-    const TARGET = 20;
-    const todayKey = () => new Date().toISOString().slice(0,10);
-    const inputs = [...document.querySelectorAll('input[data-points]')];
-    const key = 'daily-points-v4';
-    const load = () => JSON.parse(localStorage.getItem(key) || '{}');
-    const save = (data) => localStorage.setItem(key, JSON.stringify(data));
-    let data = load();
-    let day = todayKey();
-
-    function grade(score) {
-      if (score >= 20) return 'A+';
-      if (score >= 17) return 'A';
-      if (score >= 15) return 'B';
-      if (score >= 12) return 'C';
-      if (score >= 8) return 'D';
-      return 'F';
-    }
-    function selectedIds() { return inputs.filter(i => i.checked).map(i => i.dataset.id); }
-    function scoreNow() { return inputs.reduce((s, i) => s + (i.checked ? Number(i.dataset.points) : 0), 0); }
-    function fmt(n) { return Number.isInteger(n) ? String(n) : n.toFixed(1); }
-    function calcStreak() {
-      let count = 0;
-      let d = new Date();
-      while (true) {
-        const k = d.toISOString().slice(0,10);
-        if (!data[k] || data[k].score < 15) break;
-        count++;
-        d.setDate(d.getDate() - 1);
-      }
-      return count;
-    }
-    function render() {
-      const s = scoreNow();
-      document.getElementById('score').textContent = fmt(s);
-      document.getElementById('grade').textContent = grade(s);
-      document.getElementById('bar').style.width = Math.min(100, (s / TARGET) * 100) + '%';
-      const temp = {...data, [day]: { score: s, ids: selectedIds() }};
-      const old = data; data = temp;
-      document.getElementById('streak').textContent = calcStreak();
-      data = old;
-      const total = Object.values(data).reduce((a,b) => a + (b.score || 0), 0);
-      document.getElementById('summary').innerHTML = `Goal is <strong>20 points</strong>. Lifetime total: <strong>${fmt(total)}</strong> points.`;
-      const days = Object.keys(data).sort().reverse().slice(0,7);
-      document.getElementById('history').innerHTML = days.length ? '<strong>Recent days</strong><br>' + days.map(k => `${k}: ${fmt(data[k].score)} pts · ${grade(data[k].score)}`).join('<br>') : '';
-    }
-    function restore() {
-      const entry = data[day];
-      if (!entry) return;
-      inputs.forEach(i => i.checked = entry.ids && entry.ids.includes(i.dataset.id));
-    }
-    inputs.forEach(i => i.addEventListener('change', render));
-    document.getElementById('saveBtn').addEventListener('click', () => {
-      data[day] = { score: scoreNow(), ids: selectedIds(), savedAt: new Date().toISOString() };
-      save(data);
-      render();
-    });
-    document.getElementById('resetBtn').addEventListener('click', () => { inputs.forEach(i => i.checked = false); render(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js');
-    restore(); render();
-  </script>
+<script>
+const MAX=18, todayKey=()=>new Date().toISOString().slice(0,10);
+const ids=[...document.querySelectorAll('input')];
+function grade(p){return p>=.9?'A+':p>=.8?'A':p>=.7?'B':p>=.55?'C':p>=.4?'D':'F'}
+function score(){let s=0;document.querySelectorAll('input[type=checkbox]:checked').forEach(x=>s+=+x.dataset.points);s+=+document.querySelector('input[name=screen]:checked').value;s+=+document.querySelector('input[name=reading]:checked').value;return s}
+function load(){let d=JSON.parse(localStorage.getItem('daily-points-state')||'{}')[todayKey()]||{};ids.forEach(i=>{if(i.type==='checkbox')i.checked=!!d[i.id];else if(d[i.name]===i.value)i.checked=true});update()}
+function save(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}');let d={score:score()};ids.forEach(i=>{if(i.type==='checkbox')d[i.id]=i.checked;else if(i.checked)d[i.name]=i.value});all[todayKey()]=d;localStorage.setItem('daily-points-state',JSON.stringify(all));renderHistory()}
+function reset(){ids.forEach(i=>{if(i.type==='checkbox')i.checked=false; if(i.type==='radio'&&i.value==='0')i.checked=true});update();save()}
+function streak(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}'), n=0, d=new Date(); while(true){let k=d.toISOString().slice(0,10), v=all[k]?.score||0; if(v/MAX>=.7)n++; else break; d.setDate(d.getDate()-1)} return n}
+function renderHistory(){let all=JSON.parse(localStorage.getItem('daily-points-state')||'{}');let rows=Object.keys(all).sort().reverse().slice(0,7).map(k=>`${k}: ${all[k].score}/18 — ${grade(all[k].score/MAX)}`);document.getElementById('history').innerHTML=rows.length?rows.join('<br>'):'No saved days yet.';document.getElementById('streak').textContent=streak()}
+function update(){let s=score(), p=s/MAX;document.getElementById('score').textContent=Number.isInteger(s)?s:s.toFixed(1);document.getElementById('grade').textContent=grade(p);document.getElementById('fill').style.width=Math.min(100,p*100)+'%';renderHistory()}
+ids.forEach(i=>i.addEventListener('change',()=>{update();save()}));document.getElementById('save').onclick=save;document.getElementById('reset').onclick=reset;load();
+</script>
 </body>
 </html>
